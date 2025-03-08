@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2",
+    "vitest": "^3.0.7"
+  },
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  }
+}
