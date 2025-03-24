@@ -1,5 +1,5 @@
-import { Actividad } from "../class/Actividad"
-import { Supervisor } from "../class/Supervisor"
+import { Actividad } from "../class/Actividad.js"
+import { Supervisor } from "../class/Supervisor.js"
 
 
 import { describe, it, expect } from "vitest";

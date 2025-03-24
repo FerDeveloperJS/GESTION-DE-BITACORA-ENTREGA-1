@@ -1,16 +1,33 @@
-import { Bitacora } from "../class/Bitacora"
-import { Actividad } from "../class/Actividad"
-import { Supervisor } from "../class/Supervisor"
+import {
+    ErrorFechaMuyFutura,
+    ErrorDescripcionInvalida,
+    ErrorFechaPasada,
+    ErrorSupervisorInvalido,
+    ErrorResponsableInvalido,
+    ErrorActividadesDespuesDe1Semana,
+    ErrorRangoDeFechasInvalido,
+    ErrorFechaDeInicioInvalida,
+    ErrorFechaDeFinInvalida,
+    ErrorFechaMuyFutura
+} from "../excepciones/Bitacora_excepciones.js"
+
+
+import { Bitacora } from "../class/Bitacora.js"
+import { Actividad } from "../class/Actividad.js"
+import { Supervisor } from "../class/Supervisor.js"
 
 import { describe, it, expect } from "vitest"
 
 
-describe("registrarActividad - Casos normales", () => {
+
+
+describe("registrarActividad-Casos_normales", () => {
     it("Caso normal #1: La actividad se registra exitosamente en actividades de Bitácora.", () => {
+    
         const bitacora = new Bitacora();
         const supervisor = new Supervisor("Supervisor1", "supervisor1@email.com", "password123");
         const actividad = new Actividad(
-            "2025-03-07 10:00",
+            "2025-03-07T10:00:00",
             supervisor,
             "Inspección de seguridad",
             true,
@@ -26,6 +43,7 @@ describe("registrarActividad - Casos normales", () => {
 
 
     it("Caso normal #2: La actividad se registra exitosamente en actividades de Bitácora.", () => {
+        
         const bitacora = new Bitacora()
         const supervisor = new Supervisor("Supervisor2", "supervisor2@email.com", "password456")
         const actividad = new Actividad(
@@ -44,6 +62,7 @@ describe("registrarActividad - Casos normales", () => {
 
 
     it("Caso normal #3: La actividad se registra exitosamente en actividades de Bitácora", () => {
+
         const bitacora = new Bitacora()
         const supervisor = new Supervisor("Supervisor3", "supervisor3@email.com", "password789")
         const actividad = new Actividad(
@@ -67,7 +86,8 @@ describe("registrarActividad - Casos normales", () => {
 
 describe("registrarActividad - Casos extremos", () => {
     it("Caso extremo #1: No se puede establecer una fecha futura, solo hasta el dia de hoy.", () => {
-        const bitacora = new Bitacora()
+        
+        const bitacora = new Bitacora("2025-03-22")
         const supervisor = new Supervisor("Supervisor1", "supervisor1@email.com", "password123")
         const actividad = new Actividad(
             "2075-01-01 12:00", 
@@ -78,14 +98,15 @@ describe("registrarActividad - Casos extremos", () => {
             "Desconocido"
         );
 
-        const resultado = bitacora.registrarActividad(actividad)
+        
 
-        expect(resultado).toBe(ErrorFechaMuyFutura)
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorFechaMuyFutura)
     })
 
 
 
     it("Caso extremo #2: Debes modificar la descripcion de esta actividad, caracteres maximos(3,000)", () => {
+
         const bitacora = new Bitacora()
         const supervisor = new Supervisor("Supervisor2", "supervisor2@email.com", "password456")
         const descripcionLarga = "a".repeat(3001)
@@ -98,15 +119,15 @@ describe("registrarActividad - Casos extremos", () => {
             "Soleado, 27°C"
         );
 
-        const resultado = bitacora.registrarActividad(actividad)
-
-        expect(resultado).toBe(false)
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorDescripcionInvalida)
+      
     })
 
 
     
     it("Caso extremo #3: No se puede establecer una fecha pasada. Solo pasada 1 semana.", () => {
-        const bitacora = new Bitacora()
+
+        const bitacora = new Bitacora("2080-01-01")
         const supervisor = new Supervisor("Supervisor3", "supervisor3@email.com", "password789")
         const actividad = new Actividad(
             "2075-01-01 12:00", 
@@ -117,9 +138,7 @@ describe("registrarActividad - Casos extremos", () => {
             "Desconocido"
         );
 
-        const resultado = bitacora.registrarActividad(actividad)
-
-        expect(resultado).toBe(false)
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorFechaPasada)
     })
 })
 
@@ -138,9 +157,8 @@ describe("registrarActividad - Casos de error", () => {
             "Soleado, 22°C"
         );
 
-        const resultado = bitacora.registrarActividad(actividad);
-
-        expect(resultado).toBe(false);
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorSupervisorInvalido)
+        
     })
 
 
@@ -156,9 +174,9 @@ describe("registrarActividad - Casos de error", () => {
             "Lluvioso, 19°C"
         );
 
-        const resultado = bitacora.registrarActividad(actividad);
+        
 
-        expect(resultado).toBe(false);
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorDescripcionInvalida)
     })
 
 
@@ -175,9 +193,9 @@ describe("registrarActividad - Casos de error", () => {
             "Soleado, 24°C"
         );
 
-        const resultado = bitacora.registrarActividad(actividad)
 
-        expect(resultado).toBe(false)
+        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorResponsableInvalido)
+
     })
 })
 
@@ -242,7 +260,7 @@ describe("consultarActividad - Casos extremos", () => {
     it("Caso extremo #1: No se pueden listar actividades más alla de una semana", () => {
         const bitacora = new Bitacora()
         
-        expect(() => bitacora.consultarActividades("2025-03-01", "2025-03-09")).toThrow(ErrorActividadesDespuesDe1Semana)
+        expect(() => bitacora.consultarActividades("2025-03-01", "2025-03-09")).toThrow(ErrorFechaDeFinInvalida)
     })
 
 
@@ -253,10 +271,10 @@ describe("consultarActividad - Casos extremos", () => {
     })
 
 
-    it("Caso extremo #3: No se pueden listar actividades que hayan pasado más de 1 semana", () => {
-        const bitacora = new Bitacora();
+    it("Caso extremo #3: No se puede consultar actividades con fechas futuras", () => {
+        const bitacora = new Bitacora("2025-01-20");
         
-        expect(() => bitacora.consultarActividades("2025-03-14", "2025-03-11")).toThrow(ErrorActividadesAntesDe1Semana)
+        expect(() => bitacora.consultarActividades("2025-02-20", "2025-02-27")).toThrow(ErrorFechaMuyFutura)
     })
 
 
@@ -283,7 +301,7 @@ describe("consultarActividad - Casos de error", () => {
     it("Caso de error #3: Debes indicar una fecha de inicio y una fecha de fin", () => {
         const bitacora = new Bitacora()
 
-        expect(() => bitacora.consultarActividades(undefined, undefined)).toThrow(ErrorFechaDeInicioFinIndefinidos)
+        expect(() => bitacora.consultarActividades(undefined, undefined)).toThrow(ErrorRangoDeFechasInvalido)
     })
 })
 
@@ -293,10 +311,35 @@ describe("consultarActividad - Casos de error", () => {
 
 describe("generarReporte - Casos normales", () => {
     it("Caso normal #1: Genera un reporte en PDF de un periodo valido", () => {
-        const bitacora = new Bitacora()
+        const bitacora = new Bitacora("2025-03-07")
 
-        bitacora.registrarActividad("2025-03-03", "Inspección de seguridad")
-        bitacora.registrarActividad("2025-03-05", "Mantenimiento de equipos")
+
+        const supervisor = new Supervisor("Supervisor1", "supervisor1@email.com", "password123");
+        const actividad = new Actividad(
+            "2025-03-03T10:00:00",
+            supervisor,
+            "Inspección de seguridad",
+            true,
+            "Responsable1",
+            "Soleado, 25°C"
+        )
+
+
+        const supervisor2 = new Supervisor("Supervisor2", "supervisor2@email.com", "password124");
+        const actividad2 = new Actividad(
+            "2025-03-05T10:00:00",
+            supervisor2,
+            "Mantenimiento de equipos",
+            true,
+            "Responsable1",
+            "Soleado, 25°C"
+        )
+
+
+        
+
+        bitacora.registrarActividad(actividad);
+        bitacora.registrarActividad(actividad2)
 
 
         expect(bitacora.generarReporte("2025-03-01", "2025-03-07")).toBe(true)
@@ -304,22 +347,44 @@ describe("generarReporte - Casos normales", () => {
 
 
     it("Caso normal #2: Genera un reporte en PDF de un solo día", () => {
-        const bitacora = new Bitacora()
+        const bitacora = new Bitacora("2025-03-07")
 
-        bitacora.registrarActividad("2025-03-05", "Capacitación")
+
+        const supervisor = new Supervisor("Supervisor1", "supervisor1@email.com", "password123");
+        const actividad = new Actividad(
+            "2025-03-03T10:00:00",
+            supervisor,
+            "Capacitación",
+            true,
+            "Responsable1",
+            "Soleado, 25°C"
+        )
+
+        bitacora.registrarActividad(actividad)
 
         
-        expect(bitacora.generarReporte("2025-03-05", "2025-03-05")).toBe(true)
+        expect(bitacora.generarReporte("2025-03-03", "2025-03-07")).toBe(true)
     })
 
 
     it("Caso normal #3: Genera un reporte en PDF de otro día válido", () => {
-        const bitacora = new Bitacora()
-
-        bitacora.registrarActividad("2025-03-08", "Auditoría interna")
+        const bitacora = new Bitacora("2025-03-25")
 
 
-        expect(bitacora.generarReporte("2025-03-08", "2025-03-08")).toBe(true)
+        const supervisor = new Supervisor("Supervisor1", "supervisor1@email.com", "password123");
+        const actividad = new Actividad(
+            "2025-03-23T10:00:00",
+            supervisor,
+            "Auditoría interna",
+            true,
+            "Responsable1",
+            "Soleado, 25°C"
+        )
+
+        bitacora.registrarActividad(actividad)
+
+
+        expect(bitacora.generarReporte("2025-03-23", "2025-03-25")).toBe(true)
     })
 })
 
@@ -328,20 +393,22 @@ describe("generarReporte - Casos normales", () => {
 
 describe("generarReporte - Casos extremos", () => {
     it("Caso extremo #1: No se puede generar reporte de actividades más alla de una semana", () => {
-        const bitacora = new Bitacora()
-        expect(bitacora.generarReporte("2025-03-01", "2025-03-09")).toThrow(ErrorFechaDeFinInvalida)
+        const bitacora = new Bitacora("2025-03-10")
+        expect(() => bitacora.generarReporte("2025-03-01", "2025-03-09")).toThrow(ErrorFechaDeFinInvalida)
     })
 
     it("Caso extremo #2: No se puede generar reporte de actividades porque hay un error entre el rango de fechas", () => {
         const bitacora = new Bitacora()
-        expect(bitacora.generarReporte("2025-03-14", "2025-03-11")).toThrow(ErrorFechaDeInicioFinIndefinidos)
+        expect(() => bitacora.generarReporte("2025-03-14", "2025-03-11")).toThrow(ErrorRangoDeFechasInvalido);
     })
 
 
-    it("Caso extremo #3: No se puede generar reporte de actividades que hayan pasado mas de 1 semana", () => {
-        const bitacora = new Bitacora()
-        expect(bitacora.generarReporte("2025-03-02", "2025-03-11")).toThrow(ErrorFechaDeInicioInvalida)
-    })
+  
+    it("Caso extremo #3: No se puede generar un reporte con fechas futuras", () => {
+        const bitacora = new Bitacora("2025-03-10");
+        expect(() => bitacora.generarReporte("2025-03-11", "2025-03-12")).toThrow(ErrorFechaMuyFutura);
+    });
+
 })
 
 

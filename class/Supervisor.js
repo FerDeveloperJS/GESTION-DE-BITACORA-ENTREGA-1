@@ -3,5 +3,6 @@ export class Supervisor {
         this.nombre = nombre
         this.email = email
         this.contraseña = contraseña
+        this.intentosFallidos = 0
     }
 }

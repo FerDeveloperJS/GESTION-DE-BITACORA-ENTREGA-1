@@ -1,4 +1,23 @@
-import { GestorSesion } from "../class/GestorSesion"
+import {
+    ErrorContraseñaCorta,
+    ErrorContraseñaLarga,
+    ErrorEmailLargo,
+    ErrorCampoVacio,
+    ErrorFormatoEmail,
+    ErrorContraseñaObligatoria,
+    ErrorEmailRegistrado,
+    ErrorCorreoInvalido,
+    ErrorContraseñaInvalida,
+    ErrorCorreoNoExiste,
+    ErrorEmailObligatorio,
+    ErrorContraseñaMismaQueLaActual,
+    ErrorContraseñaActualIncorrecta,
+    ErrorCuentaBloqueada
+    
+} from "../excepciones/GestorSesion_excepciones.js"
+
+
+import { GestorSesion } from "../class/GestorSesion.js"
 
 import { describe, it, expect } from "vitest"
 
@@ -47,7 +66,7 @@ describe("registrarse - Casos extremos", () => {
         const gestor = new GestorSesion()
     
         
-        expect(() => gestor.registrarse("Julian", "julian@example.com", "pepeX7#vM9qLp2@tZfW8kB3sRjYD5Nc6gHTA!d4CmVu")).toThrow(ErrorContraseñaLarga)
+        expect(() => gestor.registrarse("Julian", "julian@example.com", "pepeX7#vM9qLp2@tZfW8kB3sRjYD5Nc6gHTA!d4CmVu123456789")).toThrow(ErrorContraseñaLarga)
     })
 
 
@@ -56,7 +75,7 @@ describe("registrarse - Casos extremos", () => {
         const gestor = new GestorSesion()
         
         
-        expect(() => gestor.registrarse("Matias", "Matias_X9yZ7mTqLp2@superlongemaildomaindomain.com", "juli1234")).toThrow(ErrorEmailLargo)
+        expect(() => gestor.registrarse("Matias", "Matias_X91yZ7mTqLp21@superlongemaildomaindomain.com", "juli1234")).toThrow(ErrorEmailLargo)
     })
 
 })
@@ -139,8 +158,10 @@ describe("iniciarSesion - Casos extremos", () => {
 
     
         for (let i = 0; i < 9; i++) {
-            expect(() => gestor.iniciarSesion("lucas@gmail.com", "wrong123")).toThrow(ErrorContraseñaInvalida)
+            expect(gestor.iniciarSesion("lucas@gmail.com", "wrong123")).toBe(false)
         }
+
+    
 
         expect(() => gestor.iniciarSesion("lucas@gmail.com", "Lucas1234")).toThrow(ErrorCuentaBloqueada)
     })
@@ -158,8 +179,7 @@ describe("iniciarSesion - Casos de error", () => {
     it("Caso de error #2: El correo no existe en la base de datos", () => {
         const gestor = new GestorSesion();
 
-        expect(() => gestor.iniciarSesion("soypepito@gmail.com", "pepito123"))
-            .toThrow(ErrorCorreoNoExiste);
+        expect(() => gestor.iniciarSesion("soypepito@gmail.com", "pepito123")).toThrow(ErrorCorreoNoExiste);
     })
 
 
@@ -207,7 +227,7 @@ describe("cambiarContraseña - Casos normales", () => {
         const gestor = new GestorSesion()
 
     
-        gestor.registrarse("Blandon", "maria@gmail.com", "maria123")
+        gestor.registrarse("Maria", "maria@gmail.com", "maria123")
         gestor.cambiarContraseña("maria@gmail.com", "maria123", "Maria90456*")
     
         const sesionNueva = gestor.iniciarSesion("maria@gmail.com", "Maria90456*")
@@ -224,9 +244,9 @@ describe("cambiarContraseña - Casos extremos", () => {
     it("Caso extremo #1: Contraseña muy débil (menos de 6 caracteres)", () => {
         const gestor = new GestorSesion()
     
-        gestor.registrarse("Pepe", "pepe@gmail.com", "pepe1")
+        gestor.registrarse("Pepe", "pepe@gmail.com", "pepe12")
     
-        expect(() => gestor.cambiarContraseña("pepe@gmail.com", "pepe1", "pepe4")).toThrow(ErrorContraseñaCorta)
+        expect(() => gestor.cambiarContraseña("pepe@gmail.com", "pepe12", "pepe4")).toThrow(ErrorContraseñaCorta)
     })
 
 
@@ -235,16 +255,16 @@ describe("cambiarContraseña - Casos extremos", () => {
     
         gestor.registrarse("Julian", "julian@gmail.com", "juli121")
     
-        expect(() => gestor.cambiarContraseña("julian@gmail.com", "juli121", "juliaX7#vM9qLp2@tZW8kB3sRjYD5Nc6gHTA!d4CmVu")).toThrow(ErrorContraseñaLarga)
+        expect(() => gestor.cambiarContraseña("julian@gmail.com", "juli121", "juliaX7#vM9qLp2@tZW8kB3sRjYD5Nc6gHTA!d4CmVu234567891")).toThrow(ErrorContraseñaLarga)
     })
 
 
     it("Caso extremo #3: La nueva contraseña es la misma que la actual", () => {
         const gestor = new GestorSesion();
     
-        gestor.registrarse("Luna", "luna@gmail.com", "luna1");
+        gestor.registrarse("Luna", "luna@gmail.com", "luna12");
     
-        expect(() => gestor.cambiarContraseña("luna@gmail.com", "luna1", "luna1")).toThrow(ErrorContraseñaMismaQueLaActual)
+        expect(() => gestor.cambiarContraseña("luna@gmail.com", "luna12", "luna12")).toThrow(ErrorContraseñaMismaQueLaActual)
     })
 
 })
@@ -264,16 +284,16 @@ describe("cambiarContraseña - Casos de error", () => {
     
         gestor.registrarse("Matias", "matias@gmail.com", "ClaveActual9090")
     
-        expect(() => gestor.cambiarContraseña("matias@gmail.com", "ClaveActual90901", "ClaveNueva123")).toThrow(ErrorCampoVacio)
+        expect(() => gestor.cambiarContraseña("matias@gmail.com", "ClaveActual90901", "ClaveNueva123")).toThrow(ErrorContraseñaActualIncorrecta)
     })
 
 
-    it("Caso de error #3: Contraseña demasiado larga (maximo: 50 caracteres)", () => {
+    it("Caso de error #3: Correo Inexistente", () => {
         const gestor = new GestorSesion()
     
-        gestor.registrarse("Matias", "lucho@gmail.com", "ClaveActual230")
+        gestor.registrarse("Matias", "lucho1@gmail.com", "ClaveActual230")
     
-        expect(() => gestor.cambiarContraseña("lucho@gmail.com", "ClaveActual230", "luchoX7#vM9qLp2@tZfW8kB3sRjYD5Nc6gHTA!d4CmVu")).toThrow(ErrorContraseñaLarga)
+        expect(() => gestor.cambiarContraseña("lucho@gmail.com", "ClaveActual230", "luchoX7#vM9qLp2@tZfW8kB3sRjYD5Nc6gHTA!d4CmVu")).toThrow(ErrorCorreoNoExiste)
     })
 
 })
