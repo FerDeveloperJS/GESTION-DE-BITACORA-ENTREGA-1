@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# Electron build output
+dist/
+build/
+
+# Cache
+.cache/
+*.tsbuildinfo
+
+# VSCode
+.vscode/
+
+# macOS
+__MACOSX/
+
+# Windows
+ehthumbs.db
+Icon?
+
+# Linux
+*.swp
+
+# npm
+package-lock.json
+
+# Optional: if you use Electron Forge, this helps too
+out/
