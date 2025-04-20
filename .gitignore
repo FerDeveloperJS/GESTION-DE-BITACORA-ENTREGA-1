@@ -40,3 +40,4 @@ package-lock.json
 # Optional: if you use Electron Forge, this helps too
 out/
 node_modules/
+node_modules/

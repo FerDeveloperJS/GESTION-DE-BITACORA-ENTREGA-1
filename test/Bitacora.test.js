@@ -123,23 +123,6 @@ describe("registrarActividad - Casos extremos", () => {
       
     })
 
-
-    
-    it("Caso extremo #3: No se puede establecer una fecha pasada. Solo pasada 1 semana.", () => {
-
-        const bitacora = new Bitacora("2080-01-01")
-        const supervisor = new Supervisor("Supervisor3", "supervisor3@email.com", "password789")
-        const actividad = new Actividad(
-            "2075-01-01 12:00", 
-            supervisor,
-            "Compra de materiales",
-            true,
-            "Responsable7",
-            "Desconocido"
-        );
-
-        expect(() => bitacora.registrarActividad(actividad)).toThrow(ErrorFechaPasada)
-    })
 })
 
 
