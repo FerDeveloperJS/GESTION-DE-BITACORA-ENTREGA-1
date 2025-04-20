@@ -4,11 +4,17 @@
     "extends": "./node_modules/standard/eslintrc.json"
   },
   "devDependencies": {
+    "electron": "^35.1.5",
     "standard": "^17.1.2",
     "vitest": "^3.0.7"
   },
+  "main": "GUI/main.js",
   "scripts": {
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "pdfkit": "^0.17.0"
   }
 }

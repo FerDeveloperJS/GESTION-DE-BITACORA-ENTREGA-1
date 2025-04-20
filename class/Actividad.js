@@ -1,4 +1,18 @@
+/**
+ * Representa una actividad registrada en la bitácora.
+ */
 export class Actividad {
+
+    /**
+     * Crea una nueva actividad.
+     * 
+     * @param {Date} fechaHora - Fecha y hora de la actividad.
+     * @param {Supervisor} supervisor - Supervisor responsable de la actividad.
+     * @param {string} descripcion - Descripción de la actividad.
+     * @param {Array<string>} anexos - Archivos o documentos anexos relacionados.
+     * @param {string} responsable - Persona responsable de la actividad.
+     * @param {string} condicionesClimaticas - Condiciones climáticas durante la actividad.
+     */
     constructor(fechaHora, supervisor, descripcion, anexos, responsable, condicionesClimaticas) {
         this.fechaHora = fechaHora
         this.supervisor = supervisor
@@ -8,6 +22,11 @@ export class Actividad {
         this.condicionesClimaticas = condicionesClimaticas
     }
 
+    /**
+     * Devuelve un resumen formateado de la actividad.
+     * 
+     * @returns {string} Resumen de la actividad con fecha, supervisor, descripción, anexos, responsable y clima.
+     */
     mostrarResumen() {
 
         
@@ -25,6 +44,5 @@ export class Actividad {
                 `Responsable: ${this.responsable}\n` +
                 `Condiciones Climáticas: ${this.condicionesClimaticas}`
     }
-
 }
 

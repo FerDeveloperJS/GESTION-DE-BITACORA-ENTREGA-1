@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+#form-sign-in {
+    display: none;
+}
+
+#form-change-password {
+    display: none;
+}
+
+
+img {
+    width: 50%;
+}
+
+form {
+    width: 50%;
+    background-color: #1E293B;
+    color: #fff;
+    position: relative;
+}
+
+.select-login-option {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.sign-in {
+    background-color: #374358;
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-end-start-radius: 20px;
+    border-start-start-radius: 20px;
+    border-style: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sign-up {
+    background-color: #E56B6F;
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-end-end-radius: 20px;
+    border-start-end-radius: 20px;
+    border-style: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.change-pass {
+    background-color: rgb(64, 64, 133);
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 20px;
+    border-style: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    width: 600px;
+}
+
+label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+input {
+    background-color: #1E293B;
+    border-style: none;
+    font-size: 1rem;
+    border: none;
+    color: #fff;
+}
+
+input:focus {
+    outline: none;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+#submit-sign-up {
+    display: block;
+    margin-left: 80px;
+    background-color: #E56B6F;
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 20px;
+    border-style: none;
+    width: 100px;
+    cursor: pointer;
+}
+
+
+#submit-sign-in {
+    display: block;
+    margin-left: 80px;
+    background-color: #374358;
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 20px;
+    border-style: none;
+    width: 100px;
+    cursor: pointer;
+}
+
+#submit-change-pass {
+    display: block;
+    margin-left: 80px;
+    background-color: rgb(64, 64, 133);
+    padding: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 20px;
+    border-style: none;
+    width: 100px;
+    cursor: pointer;
+}
+

@@ -18,14 +18,44 @@ import {
 
 import { Supervisor } from "../class/Supervisor.js"
 
-
+/**
+ * Clase encargada de gestionar el inicio de sesión, el registro de usuarios y el cambio de contraseña.
+ */
 export class GestorSesion {
     constructor() {
+        
+
+        /**
+         * Lista de usuarios registrados.
+         * 
+         * @type {Array<Supervisor>}
+         */
+         
+        
         this.usuarios = []
+
+
+
+
+
+        /**
+         * Mapa que almacena la cantidad de intentos fallidos por email.
+         * @type {Object<string, number>}
+         */
         this.intentosFallidos = {}
         
     }
 
+
+    /**
+     * Inicia sesión con un correo y contraseña.
+     * Valida el formato del correo y contraseña, verifica la existencia del usuario y controla los intentos fallidos.
+     * 
+     * @param {string} email - Correo del usuario.
+     * @param {string} contraseña - Contraseña del usuario.
+     * @returns {boolean} `true` si las credenciales son correctas, `false` si la contraseña es incorrecta.
+     * @throws {ErrorEmailObligatorio|ErrorContraseñaObligatoria|ErrorCorreoInvalido|ErrorContraseñaInvalida|ErrorCorreoNoExiste|ErrorCuentaBloqueada}
+     */
     iniciarSesion(email, contraseña)  {
 
 
@@ -80,7 +110,16 @@ export class GestorSesion {
     }
 
 
-
+    /**
+     * Registra un nuevo usuario como Supervisor.
+     * Valida el correo y contraseña antes de registrar.
+     * 
+     * @param {string} nombre - Nombre del nuevo usuario.
+     * @param {string} email - Correo del nuevo usuario.
+     * @param {string} contraseña - Contraseña del nuevo usuario.
+     * @returns {boolean} `true` si el registro fue exitoso.
+     * @throws {ErrorEmailRegistrado|ErrorCampoVacio|ErrorContraseñaCorta|ErrorContraseñaLarga|ErrorEmailLargo|ErrorFormatoEmail}
+     */
     registrarse(nombre, email, contraseña) {
 
         email = email.toLowerCase()
@@ -115,13 +154,22 @@ export class GestorSesion {
 
         this.usuarios.push(new Supervisor(nombre, email, contraseña))
 
-        
-        
+
         return true
     }
 
 
 
+    /**
+     * Cambia la contraseña de un usuario existente.
+     * Verifica que el correo exista y que la contraseña anterior sea correcta.
+     * 
+     * @param {string} email - Correo del usuario.
+     * @param {string} contraseña - Contraseña actual del usuario.
+     * @param {string} nuevaContraseña - Nueva contraseña a establecer.
+     * @returns {boolean} `true` si el cambio fue exitoso.
+     * @throws {ErrorCampoVacio|ErrorContraseñaMismaQueLaActual|ErrorContraseñaCorta|ErrorContraseñaLarga|ErrorContraseñaActualIncorrecta|ErrorCorreoNoExiste}
+     */
     cambiarContraseña(email, contraseña, nuevaContraseña) {
         email = email.toLowerCase()
 
