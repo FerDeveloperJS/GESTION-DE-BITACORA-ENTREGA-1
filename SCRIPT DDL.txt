@@ -1,0 +1,36 @@
+-- Tabla: Bitacoras
+CREATE TABLE Bitacoras (
+    id_bitacora SERIAL PRIMARY KEY,
+    fecha_creacion DATE
+);
+
+-- Tabla: Supervisores
+CREATE TABLE Supervisores (
+    id_supervisor SERIAL PRIMARY KEY,
+    nombre VARCHAR(50),
+    email VARCHAR(50),
+    contrasena VARCHAR(50)
+);
+
+-- Tabla: Actividades
+CREATE TABLE Actividades (
+    id_actividad SERIAL PRIMARY KEY,
+    id_bitacora INT REFERENCES Bitacoras(id_bitacora),
+    id_supervisor INT REFERENCES Supervisores(id_supervisor),
+    fechaHora TIMESTAMP,
+    descripcion TEXT,
+    responsable TEXT,
+    condicionesClimaticas TEXT
+);
+
+-- Tabla: Anexos
+CREATE TABLE Anexos (
+    id_anexo SERIAL PRIMARY KEY,
+    id_actividad INT REFERENCES Actividades(id_actividad),
+    ruta_archivo TEXT
+);
+
+-- Índices para las claves foráneas (opcional, pero recomendado para rendimiento)
+CREATE INDEX idx_actividades_id_bitacora ON Actividades (id_bitacora);
+CREATE INDEX idx_actividades_id_supervisor ON Actividades (id_supervisor);
+CREATE INDEX idx_anexos_id_actividad ON Anexos (id_actividad);
