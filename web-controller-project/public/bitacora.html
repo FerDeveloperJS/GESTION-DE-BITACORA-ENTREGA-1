@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bitacora.css">
+    <title>Bitácora</title>
+</head>
+<body>
+    <h1>BITÁCORA</h1>
+
+    <form id="form_nueva_actividad">
+        <h2>Registrar Actividad</h2>
+        <label for="fecha">Ingrese la fecha de la actividad</label>
+        <input type="date" id="fecha" required>
+
+        <label for="supervisor">Ingrese el id del supervisor</label>
+        <input type="text" id="supervisor" required>
+
+        <label for="descripcion">Ingrese descripción de la actividad</label>
+        <input type="text" id="descripcion" required>
+
+        <label for="anexos">Sube tus anexos</label>
+        <input type="file" id="anexos">
+
+        <label for="responsable">Ingrese el nombre del responsable</label>
+        <input type="text" id="responsable" required>
+
+        <label for="condiciones_climaticas">Condiciones Climáticas durante la actividad</label>
+        <input type="text" id="condiciones_climaticas" required>
+
+        <input type="submit" value="Registrar Actividad">
+    </form>
+
+    <form id="form_consultar_actividades">
+        <h2>Consultar Actividades</h2>
+        <label for="consulta_inicio">Fecha inicio</label>
+        <input type="date" id="consulta_inicio" required>
+
+        <label for="consulta_fin">Fecha fin</label>
+        <input type="date" id="consulta_fin" required>
+
+        <input type="submit" value="Consultar Actividades">
+    </form>
+
+    <div id="resultado_consulta" style="margin-top: 2rem;"></div>
+
+    <form id="form_reporte">
+        <h2>Generar Reporte</h2>
+        <label for="reporte_inicio">Fecha de inicio:</label>
+        <input type="date" id="reporte_inicio" required>
+
+        <label for="reporte_fin">Fecha de fin:</label>
+        <input type="date" id="reporte_fin" required>
+
+        <input type="submit" value="Generar reporte">
+    </form>
+
+    <div id="resultado_reporte"></div>
+    <button id="btn_descargar_pdf" style="display: none;">Descargar PDF</button>
+
+    <div id="mensaje" style="margin-top: 1rem; text-align: center; font-size: 1.5rem;"></div>
+
+    <script src="js/bitacora.js"></script>
+</body>
+</html>

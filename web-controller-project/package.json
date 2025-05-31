@@ -1,0 +1,21 @@
+{
+  "name": "web-controller-project",
+  "version": "1.0.0",
+  "description": "A web controller project for managing user authentication and activity logging.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "mongoose": "^5.10.9",
+    "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "author": "",
+  "license": "ISC"
+}
